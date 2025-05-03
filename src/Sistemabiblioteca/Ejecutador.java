@@ -2,30 +2,91 @@ package Sistemabiblioteca;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
+import java.util.Scanner;
 
 public class Ejecutador {
 
     public static void main(String[] args) {
-        ArrayList<Cliente> clientes = new ArrayList<>();
-        clientes.add(new Cliente(1, "Andres Muñoz", "andresmuñoz@gmail.com"));
-        clientes.add(new Cliente(1, "Luisa Rodriguez", "luisarodriguez@gmail.com"));
-        clientes.add(new Cliente(3, "Andres Manuel", "andresmanuel@gmail.com"));
+        Scanner scanner = new Scanner(System.in);
+        Administrador administrador = new Administrador(1,"Robert", "rscastillo2234@gmail.com");
+        byte opcion = 0;
 
-        Usuario usuario = new Usuario(1096216846, "Robert Castillo", "rscastillo2234@gmail.com");
+        do {
+            System.out.println("::::::::::Bienvenido al sistema de biblioteca publica::::::::::");
+            System.out.println("¿Por favor escoge una opción?");
+            System.out.println("""
+                    1. Registrar cliente:
+                    2. Registar libro:
+                    3. Registrar prestamo:
+                    4. Salir del sistema:""");
 
-        Administrador administrador = new Administrador(1096216846, "Robert Steven Castillo Pérez",
-                "robert.castillope@unipaz.edu.co");
-        Libro libro = new Libro("978-950-563-656", "La Divina Comedia", "Dante Alighieri", true);
-        Prestamo prestamo = new Prestamo(new Date(), new Date(28/07/2025), "Activo", libro, usuario);
-        Cliente cliente = new Cliente(37930303, "Luisa Morales", "luisamorales@gmail.com");
+            opcion = scanner.nextByte();
+            scanner.nextLine();
 
-        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-        System.out.println("::: Software de prestamo de libros en una biblioteca:::");
-        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-        System.out.println("Id: " + usuario.getId()
-        + "\nCliente: " + usuario.getNombre()
-        + "\nCorreo: " + usuario.getCorreo());
-        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::");
-        System.out.println(":::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+            switch (opcion){
+                case 1: {
+                    ArrayList<Cliente> clientes = new ArrayList<>();
+                    int idcontador = 1;
+                    while (true){
+                        System.out.println("********** REGISTRAR CLIENTE **********");
+                        int id = idcontador++;
+
+                        System.out.println("Ingrese el nombre:");
+                        String nombre = scanner.nextLine();
+
+                        System.out.println("Ingrese el correo:");
+                        String correo = scanner.nextLine();
+
+                        clientes.add(new Cliente(id, nombre, correo));
+
+                        System.out.println("Quiere registrar otro cliente:? Si/No");
+                        String respuesta = scanner.nextLine().toLowerCase(Locale.ROOT);
+
+                        if (!respuesta.equals("si")){
+                            break;
+                        }
+                    }
+                    administrador.registrarCliente(clientes);
+                    break;
+                }
+                case 2: {
+                    ArrayList<Libro> libros = new ArrayList<>();
+                    while (true){
+                        System.out.println("********** REGISTRO PARA LIBROS**********");
+
+                        System.out.println("Ingrese el ISBN:");
+                        String isbn = scanner.nextLine();
+
+                        System.out.println("Ingrese el titulo del libro:");
+                        String titulo = scanner.nextLine();
+
+                        System.out.println("Ingrese el autor:");
+                        String autor = scanner.nextLine();
+
+                        System.out.println("¿Esta disponible:? Si/No");
+                        boolean disponible = scanner.nextBoolean();
+                        scanner.nextLine();
+
+                        libros.add(new Libro(isbn, titulo, autor, disponible));
+
+                        System.out.println("Quiere registrar otro libro:? Si/No");
+                        String respuesta = scanner.nextLine().toLowerCase(Locale.ROOT);
+
+                        if (!respuesta.equals("si")){
+                            break;
+                        }
+                    }
+                    administrador.registrarLibro(libros);
+                    break;
+                }
+                case 3: {
+                    System.out.println("HASTA LUEGO");
+                    break;
+                }
+            }
+        }while (opcion != 3);
+
+
     }
 }
