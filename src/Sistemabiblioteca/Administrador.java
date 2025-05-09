@@ -21,6 +21,7 @@ public class Administrador extends Usuario {
         }
     }
 
+
     public void registrarLibro(ArrayList<Libro> libros) {
         for (Libro l: libros){
             this.libros.add(l);
@@ -29,6 +30,32 @@ public class Administrador extends Usuario {
         }
     }
 
-    public void realizarPrestamo(Usuario u, Libro libro ) {
+    public void realizarPrestamo(Prestamo prestamo) {
+        this.prestamos.add(prestamo);
+        System.out.println("===== Préstamo registrado =====");
+        System.out.println("Fecha de inicio: " + prestamo.getFechaInicio());
+        System.out.println("Fecha de devolución: " + prestamo.getFechaDevolución());
+        System.out.println("Estado: " + prestamo.getEstado());
+        System.out.println("Libro: " + prestamo.getLibro().getTitulo() + " por " + prestamo.getLibro().getAutor());
+        System.out.println("Usuario: " + prestamo.getCliente().getNombre() + " (ID: " + prestamo.getCliente().getId() + ")");
     }
+
+
+    public ArrayList<Cliente> getClientes() {
+        return clientes;
+    }
+
+    public ArrayList<Libro> getLibros() {
+        return libros;
+    }
+
+    public Cliente buscarClientePorId(int id) {
+        for (Cliente c : clientes) {
+            if (c.getId() == id) {
+                return c;
+            }
+        }
+        return null;
+    }
+
 }
